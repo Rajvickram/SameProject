@@ -114,10 +114,10 @@ class BusDemo {
                 Booking booking = new Booking();
                 if (booking.Available(bookings,buses)) {
                     bookings.add(booking);
-                    System.out.println("Your Booking is Confirmed");
+                    System.out.println("Thanks For Booking us Ur Booking is Confirmed.........");
                 }
                 else {
-                    System.out.println("Sorry, Ur Bus is full try another bus...");
+                    System.out.println("Sorry, Ur pick the date of the bus is very full so u can try another bus and we have more speciality....");
                 }
             }
         }
