@@ -1,3 +1,5 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 class Bus {
@@ -44,13 +46,54 @@ class Booking {
     String PassengerName;
     int busNo;
     Date date;
-}
+
+    Booking() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the Passenger Name : ");
+        PassengerName = scan.nextLine();
+        System.out.println();
+        System.out.println("Enter the Bus No : ");
+        busNo = scan.nextInt();
+        System.out.println();
+        System.out.println("Enter the Date U Wantr to Travel (dd-mm-yyyy) : ");
+        String dateinput = scan.next();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            date = dateFormat.parse(dateinput);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+        public boolean Available(ArrayList<Booking> bookings, ArrayList<Bus> buses) {
+            int Capacity = 0;
+            
+            for (Bus bus : buses) {
+                if (bus.getbusNo() == busNo) {
+                    Capacity = bus.getCapacity();
+                }
+            }
+
+            int booked = 0;
+
+            for (Booking book : bookings) {
+                if (book.busNo == busNo && book.date.equals(date)) {
+                    booked++;
+                }
+            }
+            return booked<Capacity ? true : false;
+        }
+    }
 
 class BusDemo {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
         ArrayList<Bus> buses = new ArrayList<Bus>();
+        ArrayList<Booking> bookings = new ArrayList<Booking>();
 
         buses.add(new Bus(1, true, 1));
         buses.add(new Bus(2, false, 5));
@@ -68,7 +111,14 @@ class BusDemo {
             userOpt = sc.nextInt();
 
             if (userOpt == 1) {
-                System.out.println("Booking Confirmed........");
+                Booking booking = new Booking();
+                if (booking.Available(bookings,buses)) {
+                    bookings.add(booking);
+                    System.out.println("Your Booking is Confirmed");
+                }
+                else {
+                    System.out.println("Sorry, Ur Bus is full try another bus...");
+                }
             }
         }
     }
